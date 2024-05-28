@@ -1,0 +1,67 @@
+<%-- 
+    Document   : listeSortie
+    Created on : 23 nov. 2023, 01:29:35
+    Author     : fex
+--%>
+
+<%@page import="java.sql.Connection"%>
+<%@page import="model.Entree"%>
+<%@page import="model.Sortie"%>
+<%@page import="connexion.*"%>
+<%
+    Connection c=Connexion.getConnection();
+    Entree[] e=Entree.getAllEntreeV(c);
+    c.close();
+    String message="";
+    message = (String) request.getAttribute("message");
+%>
+
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta content="width=device-width, initial-scale=1.0" name="viewport">
+        <link href="style.css" rel="stylesheet">
+        <title>JSP Page</title>
+    </head>
+    <body>
+        <div class="navbar">
+            <a href="Init_sortie"><p>Sortie</p></a>
+            <a href="Init_entree"><p>Entrée</p></a>
+            <a href="Init_sortieNv"><p>Liste sortie NV</p></a>
+            <a href="Init_entreeNv"><p>Liste entree NV</p></a>
+            <a href="Init_etat"><p>Etat</p></a>
+        </div>
+        <div id="corp">
+        <% if(message!=null) { %>
+        <h3 style="text-align: center"><%= message %></h3>
+        <% } %>
+        <table>
+            <tr>
+                <th>Id</th>
+                <th>date validation</th>
+                <th>Magasin</th>
+                <th>Article</th>
+                <th>Qte</th>
+                <th>pu</th>
+                <th>valeur</th>
+                <th>unite</th>
+            </tr>
+            <% for(int i=0;i<e.length;i++) { %>
+                <tr>
+                    <td><%= e[i].getIdEntree() %></td>
+                    <td><%= e[i].getDateValidation() %></td>
+                    <td><%= e[i].getMagasin().getNom() %></td>
+                    <td><%= e[i].getArticle().getNom() %></td>
+                    <td><%= e[i].getQte() %></td>
+                    <td><%= e[i].getPu() %></td>
+                    <td><%= e[i].getValeur() %></td>
+                    <td><%= e[i].getUnite() %></td>
+                    
+                </tr>
+            <% } %>
+        </table>
+        </div>
+    </body>
+</html>
